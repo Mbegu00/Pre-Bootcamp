@@ -27,10 +27,16 @@
             width: 60px;
             height: 75px;
         }
+
+        .bullet {
+            position: absolute;
+            background-image: url('img/laser.png');
+            width: 20px;
+            height: 25px;
+        }
     </style>
     <div id="ocean">
         <div id="players"></div>
-        
         <div id="enemies"></div>
     </div>
     <script type="text/javascript">
@@ -64,23 +70,73 @@
             document.getElementById("enemies").innerHTML = content;
         }
         drawEnemies()
+        
 
 
-        function attackEnemies() {
+        function moveEnemies() {
             var randomDirection = 0
-            console.log(randomDirection)
             for (var idx = 0; idx < enemies.length; idx++) {
                 if (randomDirection === 0) {
-                    enemies[idx].top += 1; 
+                    enemies[idx].top += 5; 
                 } 
-
                 var enemyElement = document.getElementsByClassName('enemy')[idx];
                 enemyElement.style.top = enemies[idx].top + 'px';
                 enemyElement.style.left = enemies[idx].left + 'px';
             }
         }
-        setInterval(attackEnemies, 250)
+        setInterval(moveEnemies, 250)
 
+
+        var bullet = null; 
+
+        function moveBullet() {
+            if (bullet) {
+                var bulletElement = document.getElementById("bullet");
+                var currentTop = parseInt(bulletElement.style.top);
+                var newTop = currentTop - 10; 
+                bulletElement.style.top = newTop + "px";
+        
+                if (newTop < 0) {
+                    bulletElement.parentNode.removeChild(bulletElement);
+                    bullet = null;
+                    return;
+                }
+                
+                var enemiesElements = document.getElementsByClassName("enemy");
+                for (var i = 0; i < enemiesElements.length; i++) {
+                    var enemyElement = enemiesElements[i];
+                    if (checkCollision(bulletElement, enemyElement)) {
+                        bulletElement.parentNode.removeChild(bulletElement);
+                        enemyElement.parentNode.removeChild(enemyElement);
+                        bullet = null;
+                        return;
+                    }
+                }
+            }
+        }
+
+        document.addEventListener("click", function(event) {
+            if (!bullet) {
+                var newPosX = player.left + 30; 
+                var newPosY = player.top;
+                var content = "<div id='bullet' class='bullet' style='left:" + newPosX + "px; top:"+newPosY +"px'></div>";
+                document.getElementById("ocean").innerHTML += content;
+                bullet = document.getElementById("bullet");
+            }
+        });
+
+        function checkCollision(element1, element2) {
+            var rect1 = element1.getBoundingClientRect();
+            var rect2 = element2.getBoundingClientRect();
+            return (
+                rect1.top < rect2.bottom &&
+                rect1.bottom > rect2.top &&
+                rect1.left < rect2.right &&
+                rect1.right > rect2.left
+            );
+        }
+
+    setInterval(moveBullet, 50);
 
         document.onkeydown = function(e) {
             if(e.keyCode == 37 && player.left > 10){
