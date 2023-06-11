@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <title>Document</title>
+    <title>AirPlanet</title>
 </head>
 <body>
     <style type="text/css">
@@ -71,10 +71,9 @@
             console.log(randomDirection)
             for (var idx = 0; idx < enemies.length; idx++) {
                 if (randomDirection === 0) {
-                    enemies[idx].top += 1; // Mover hacia abajo
+                    enemies[idx].top += 1; 
                 } 
 
-                // Actualizar la posición del enemigo en el DOM
                 var enemyElement = document.getElementsByClassName('enemy')[idx];
                 enemyElement.style.top = enemies[idx].top + 'px';
                 enemyElement.style.left = enemies[idx].left + 'px';
@@ -90,15 +89,14 @@
             if(e.keyCode == 39 && player.left < 850){
                 player.left = player.left + 10
             }
-            if(e.keyCode == 38 && player.top > 550){//top
+            if(e.keyCode == 38 && player.top > 550){
                 player.top = player.top - 10
             }
-            if(e.keyCode == 40 && player.top < 650){//up
+            if(e.keyCode == 40 && player.top < 650){
                 player.top = player.top + 10
             }
             drawPlayer()
         }
-
 
     </script>
 </body>
