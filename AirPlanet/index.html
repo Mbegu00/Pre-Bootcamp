@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+    <style type="text/css">
+        #ocean {
+            
+            background-image: url('img/oceano.png');
+            width: 900px;
+            height: 700px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .player {
+            position: absolute;
+            background-image: url('img/avion-2.png');
+            width: 70px;
+            height: 75px;
+        }
+        .enemy {
+            position: absolute;
+            background-image: url('img/enemy-2.png');
+            width: 60px;
+            height: 75px;
+        }
+    </style>
+    <div id="ocean">
+        <div id="players"></div>
+        
+        <div id="enemies"></div>
+    </div>
+    <script type="text/javascript">
+        var player = {
+            left: 450,
+            top: 620
+        }
+        var enemies = [
+            {left: 100, top:30},
+            {left: 210, top:50},
+            {left: 50, top:180},
+            {left: 500, top:270},
+            {left: 550, top:20},
+            {left: 250, top:250},
+            {left: 650, top:80},
+            {left: 700, top:270},
+            
+        ]
+
+        function drawPlayer() {
+            content = "<div class='player' style='left:" + player.left +"px; top:"+player.top +"px'></div>";
+            document.getElementById("players").innerHTML = content
+        }
+        drawPlayer()
+
+        function drawEnemies() {
+            var content = "";
+            for (var idx = 0; idx < enemies.length; idx++) {
+                content += "<div class='enemy' style='left:" + enemies[idx].left +"px; top:"+enemies[idx].top +"px'></div>";
+            }
+            document.getElementById("enemies").innerHTML = content;
+        }
+        drawEnemies()
+
+
+        function attackEnemies() {
+            var randomDirection = 0
+            console.log(randomDirection)
+            for (var idx = 0; idx < enemies.length; idx++) {
+                if (randomDirection === 0) {
+                    enemies[idx].top += 1; // Mover hacia abajo
+                } 
+
+                // Actualizar la posición del enemigo en el DOM
+                var enemyElement = document.getElementsByClassName('enemy')[idx];
+                enemyElement.style.top = enemies[idx].top + 'px';
+                enemyElement.style.left = enemies[idx].left + 'px';
+            }
+        }
+        setInterval(attackEnemies, 250)
+
+
+        document.onkeydown = function(e) {
+            if(e.keyCode == 37 && player.left > 10){
+                player.left = player.left - 10
+            }
+            if(e.keyCode == 39 && player.left < 850){
+                player.left = player.left + 10
+            }
+            if(e.keyCode == 38 && player.top > 550){//top
+                player.top = player.top - 10
+            }
+            if(e.keyCode == 40 && player.top < 650){//up
+                player.top = player.top + 10
+            }
+            drawPlayer()
+        }
+
+
+    </script>
+</body>
+</html>
