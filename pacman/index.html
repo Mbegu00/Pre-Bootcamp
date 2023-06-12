@@ -67,18 +67,6 @@
     <div id="lives">Vidas: 3</div>
     <script type="text/javascript">
         var world = []
-        //     [0, 0, 0, 0, 0],
-        //     [0, 1, 2, 1, 0],
-        //     [0, 1, 0, 1, 0],
-        //     [0, 1, 1, 1, 0],
-        //     [0, 1, 1, 1, 0],
-        //     [0, 1, 0, 1, 0],
-        //     [0, 1, 1, 1, 0],
-        //     [0, 1, 1, 1, 0],
-        //     [0, 2, 0, 1, 0],
-        //     [0, 1, 1, 2, 0],
-        //     [0, 0, 0, 0, 0],
-        // ];
         var score = 0;
         var lives = 3;
         var gameOver = false;
@@ -101,8 +89,8 @@
         };
         //Creando mundo randon
         function randomWorld() {
-            var rows = Math.floor(Math.random() * 8) + 4;
-            var cols = Math.floor(Math.random() * 8) + 4;
+            var rows = 10
+            var cols = 10
             world = [];
 
             for (var row = 0; row < rows; row++) {
@@ -115,6 +103,7 @@
             }
         }
 
+        //dibuja todo
         function drawWorld() {
             var output = "";
             for (var row = 0; row < world.length; row++) {
@@ -138,7 +127,7 @@
             document.getElementById('ghost').style.top = ghost.y * 40 + 'px';
             document.getElementById('ghost').style.left = ghost.x * 40 + 'px';
         }
-
+        
         function updateScore() {
             document.getElementById('score').innerText = "Puntaje: " + score;
         }
@@ -152,7 +141,12 @@
                 score++;
                 world[ninjaman.y][ninjaman.x] = 0;
                 updateScore(); 
-            } 
+            }if (world[ninjaman.y][ninjaman.x] === 3) {
+                score += 2
+                //elimina (onigiri) del game
+                world[ninjaman.y][ninjaman.x] = 0
+                updateScore(); 
+            }  
         }
 
          // Dibuja el enemigo (ghost)
